@@ -1,3 +1,6 @@
-  * [installrcp4 Install remoteCP-4]
-  * [installrcp4live Install remoteCP-4 Live]
-  * [installrcp3 Install remoteCP-3]
+  * Install
+    * [installrcp4 Install remoteCP-4]
+    * [installrcp4live Install remoteCP-4 Live]
+    * [installrcp3 Install remoteCP-3]
+  * Configuration
+    * [configpluginsettings Plugin settings explained]
