@@ -13,4 +13,4 @@ If you wrote any remoteCP guide please feel free to contact the us, we maybe cou
     * Plugins
       * [remoteCP4WebsitePlugin]
   * remoteCP 3
-    * [RemoteCP3Install Install]
+    * [remoteCP3Install Install]
