@@ -4,3 +4,10 @@
 This section will help you installing and setting up your remoteCP. Don't forget to comment our help docs if you experience problems with our guides, its us a pleasure to improve this section.
 
 If you wrote any remoteCP guide please feel free to contact the us, we maybe could need your help.
+
+  * Install
+    * [installrcp4 Install remoteCP-4]
+    * [installrcp4live Install remoteCP-4 Live]
+    * [installrcp3 Install remoteCP-3]
+  * Configuration
+    * [configpluginsettings Plugin settings explained]
