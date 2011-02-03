@@ -7,8 +7,10 @@ If you wrote any remoteCP guide please feel free to contact the us, we maybe cou
   * remoteCP 5
     * comming soon
   * remoteCP 4
-    * [InstallRemoteCP4 Install]
-    * [InstallRemoteCP4Live Install Live extension]
-    * [PluginSettings Plugin settings explained]
+    * [remoteCP4Install Install]
+    * [remoteCP4InstallLive Install Live extension]
+    * [remoteCP4PluginSettings Plugin settings explained]
+    * Plugins
+      * [remoteCP4WebsitePlugin]
   * remoteCP 3
-    * [InstallRemoteCP3 Install]
+    * [RemoteCP3Install Install]
