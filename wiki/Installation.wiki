@@ -6,8 +6,8 @@ If you wrote any remoteCP guide please feel free to contact the us, we maybe cou
 == Contents ==
   * remoteCP 5
   * remoteCP 4
-    * [installrcp4 Install]
-    * [installrcp4live Install Live extension]
-    * [configpluginsettings Plugin settings explained]
+    * [InstallRemoteCP4 Install]
+    * [InstallRemoteCP4Live Install Live extension]
+    * [PluginSettings Plugin settings explained]
   * remoteCP 3
-    * [installrcp3 Install]
+    * [InstallRemoteCP3 Install]
