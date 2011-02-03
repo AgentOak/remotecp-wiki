@@ -1,4 +1,4 @@
-  * [Articles HOWTO articles]
+  * [Articles installrcp4 Install remoteCP-4]
     * [ArticlesXSS Web security]
     * [ArticlesDom DOM manipulation]
     * [ArticlesStyle CSS and style]
