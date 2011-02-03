@@ -1,0 +1,42 @@
+Follow this steps to install remoteCP-3:
+
+    * Download and unzip the ZIP-file into a directory on your webserver
+    * Open */xml/servers.xml* and edit the serversettings
+    * (linux only) CHMOD *771* all files in the directory */xml/*
+    * (linux only) CHMOD *771* the directory */images/cache/*
+    * Open your remoteCP-3 and login the first time with Username: *admin* and Password: *admin*
+    * Select the Maintenance tab and change your admin password
+    * (optional) You can also change the system settings to your needs. Take a look into */xml/settings.xml*
+
+
+== Serversettings ==
+The */xml/servers.xml* file is very important, for a well running remoteCP-3 system. You have to set up your server config there. Without a valid *servers.xml*, remoteCP-3 wont run probably!
+
+Most of the file should be selfexplaining but keep an eye on the values of account and password, it's very important that this matches the SuperAdmin data from your servers *dedicated.cfg* file!
+
+{{{
+<?xml version='1.0' standalone='yes'?>
+<servers>
+  <server>
+	<serverid>1</serverid>
+	<name>My.Server</name>
+	<ip>localhost</ip>
+	<port>5000</port>
+	<account>SuperAdmin</account>
+	<password>SuperAdmin</password>
+	<filemode>local</filemode>
+	<ftp>
+	  <host>localhost</host>
+	  <username>webmaster</username>
+	  <password>password</password> 
+	  <path>/GameData/Tracks/</path>
+	</ftp>
+	<sql>
+	  <host>localhost</host>
+	  <username>username</username>
+	  <password>password</password>
+	  <dbname>database</dbname>
+	</sql>
+  </server>
+</servers>
+}}}
