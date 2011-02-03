@@ -3,21 +3,21 @@
 
 Follow this steps to install remoteCP-4:
 
-    * Download and unzip the ZIP-file into a directory on your webserver
-    * Open /xml/servers.xml and edit the serversettings
-    * (linux only) CHMOD 771 all files in the directory /xml/
-    * (linux only) CHMOD 771 the directory /cache/
-    * Open your remoteCP-4 and login the first time with Username: 'admin' and Password: 'admin'
+    * Download and unzip the ZIP-file into a directory on your web server
+    * Open */xml/servers.xml* and edit the server settings
+    * (linux only) CHMOD *771* all files in the directory */xml/*
+    * (linux only) CHMOD *771* the directory */cache/*
+    * Open your remoteCP-4 and login the first time with Username: *admin* and Password: *admin*
     * Select the Maintenance tab and change your admin password
-    * (optional) You can also change the system settings to your needs. Take a look into /xml/settings/default/settings.xml
+    * (optional) You can also change the system settings to your needs. Take a look into */xml/settings/default/settings.xml*
 
 
-== Serversettings == (_/xml/servers.xml_)
-The servers.xml file is very important, for a well running remoteCP-4 system. You have to set up your server config there. Without a valid servers.xml, remoteCP-4 wont run probably!
+== Serversettings ==
+The */xml/servers.xml* file is very important, for a well running remoteCP-4 system. You have to set up your server config there. Without a valid servers.xml, remoteCP-4 wont run probably!
 
-Most of the file should be selfexplaining but keep an eye on the values of account and password, it's very important that this matches the SuperAdmin data from your dedicated.cfg file!
+Most of the file should be self explaining but keep an eye on the values of account and password, it's very important that this matches the SuperAdmin data from your dedicated.cfg file!
 
-----
+{{{
 <server>
 	<serverid>1</serverid>
 	<login>login</login>
@@ -44,13 +44,13 @@ Most of the file should be selfexplaining but keep an eye on the values of accou
 		<dbname>remotecp</dbname>
 	</sql>
 </server>
-----
+}}}
 
-== Settingset option == (_/xml/servers.xml_)
-The <settingset> option allows the serveradministrator to define seperate setting.xml and live.xml files for every server. If this value is set, remoteCP-4 searches in the settingset folder for other setting files.
+== Settingset option ==
+The *settingset* option allows the server administrator to define separate *setting.xml* and *live.xml* files for every server. If this value is set, remoteCP-4 searches in the settingset folder for other setting files.
 
-Example: <settingset>simplesettings</settingset>
-remoteCP-4 will search the files settings.xml and live.xml now inside the folder /xml/settings/simplesettings/
+Example: {{{<settingset>simplesettings</settingset>}}}
+remoteCP-4 will search the files *settings.xml* and *live.xml* now inside the folder */xml/settings/simplesettings/*
 
 == Important information ==
 It is possible to open and read all XML Files (in some case also .bat and .sh) in any webbrowser, by directly calling the URL of that file. For example:
