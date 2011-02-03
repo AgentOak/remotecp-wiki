@@ -1,0 +1,13 @@
+The remoteCP plugin system uses files called *settings.xml*, inside the plugins folders, to allow editing of plugin settings without any php knowledge. This system is kinda self explaining since every *settings.xml* file has comments inside it, that describe every option.
+
+Since version 4.0.2.6 it is possible to define multiple *settings.xml* files for one plugin. This is made for plugins which need different settings for every server, like the Dedimania plugin from remoteCP Live.
+
+== How to define multiple setting files ==
+Its a easy task to archive this, we will use the Dedimanina plugin as an example here:
+
+    * Open your */xml/servers.xml* and search the *serverid* for the server you want to add a own setting file
+    * Write that *serverid* down somewhere (I will use the *serverid* _1419_ for this example)
+    * Open the folder */live/Dedimania/*
+    * Create a copy of the file */xml/settings.xml*
+    * Now rename that *settings.xml*-copy to *settings_serverid.xml*, in my example the new filename will be: *settings_1419.xml*
+    * Thats it, your done!
