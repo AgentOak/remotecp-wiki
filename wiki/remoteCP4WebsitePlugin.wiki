@@ -1,0 +1,49 @@
+remoteCP's Website plugin isn't a real plugin for the remoteCP system. It uses the system to gain data but wont be displayed from remoteCP. The Website plugin returns an xml file, with serverdata, to parse and display this data on your website.
+
+So the Website plugin is a really special one and have to be used also in a special way. To open the plugin just type the following in your webbrowsers address bar:
+{{{
+http://www.mydomain.com/remoteCPpath/ajax.php?plugin=Website&autologin=true&serverid=1
+}}}
+
+To remove all the trackmania text styling codes add &nocode=1 to your url:
+{{{
+http://www.mydomain.com/remoteCPpath/ajax.php?plugin=Website&autologin=true&serverid=1&nocode=1
+}}}
+
+The plugin returns valid xml code which can be parsed by javascript or a server based language like php! See also the autologin documentation for further help.
+
+There are new options since remoteCP 4.0.1.3! Add this to your url to remove players or challenges (+lastchallenge) data:
+{{{
+&players=1/0
+&challenges=1/0
+}}}
+
+Example XML structure with nocode:
+(_Data from name, comment, currentchallenge, lastchallenge, players and challenges are urlencoded_)
+
+{{{
+<?xml version="1.0"?>
+<server>
+	<name>SpielHALle</name>
+	<comment>http://www.hal-ko.de</comment>
+	<gamemode>Rounds</gamemode>
+	<laddermode>Normal</laddermode>
+	<type>TmUnited</type>
+	<version>0.2.0.9</version>
+	<status>Running - Play</status>
+	<coppers>4198</coppers>
+	<challengedownload>yes</challengedownload>
+	<p2pupload>yes</p2pupload>
+	<p2pdownload>yes</p2pdownload>
+	<maxplayers>32</maxplayers>
+	<maxspectators>32</maxspectators>
+	<currentchallenge>UL3 - Revelation</currentchallenge>
+	<lastchallenge>UL3 ~ Castle Combe</lastchallenge>
+	<challenges>
+		<item>UL3 ~ Castle Combe (Rally)</item>
+		<item>UL3 - Revelation (Bay)</item>
+		<item>UL3 Reality Trap (Coast)</item>
+	</challenges>
+	<players />
+</server>
+}}}
