@@ -1,4 +1,4 @@
-#Welcome to the remoteCP - Dedicated Server Control Panel - software! This website will help you to install and use your remoteCP.
+Welcome to the remoteCP - Dedicated Server Control Panel - software! This website will help you to install and use your remoteCP.
 
 This section will help you to install and maintain your remoteCP installation, but you will also find some helpfull informations about some more advanced features!
 
