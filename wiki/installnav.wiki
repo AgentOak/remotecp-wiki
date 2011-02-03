@@ -1,2 +1,2 @@
-  * [Articles installrcp4]
-  * [Articles installrcp3]
+  * [installrcp4 Install remoteCP-4]
+  * [installrcp3 Install remoteCP-3]
