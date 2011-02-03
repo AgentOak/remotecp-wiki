@@ -1,7 +1,7 @@
 #labels Featured,Phase-Deploy
-Follow this steps to install remoteCP-4:
+#sidebar installnav
 
-<wiki:toc max_depth="1" />
+Follow this steps to install remoteCP-4:
 
     * Download and unzip the ZIP-file into a directory on your web server
     * Open */xml/servers.xml* and edit the server settings
