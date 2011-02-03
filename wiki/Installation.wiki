@@ -5,6 +5,7 @@ If you wrote any remoteCP guide please feel free to contact the us, we maybe cou
 
 == Contents ==
   * remoteCP 5
+    * comming soon
   * remoteCP 4
     * [InstallRemoteCP4 Install]
     * [InstallRemoteCP4Live Install Live extension]
