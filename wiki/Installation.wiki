@@ -10,6 +10,7 @@ If you wrote any remoteCP guide please feel free to contact the us, we maybe cou
     * [remoteCP4Install Install]
     * [remoteCP4InstallLive Install Live extension]
     * [remoteCP4PluginSettings Plugin settings explained]
+    * [remoteCP4Autologin Autologin feature explained]
     * Plugins
       * [remoteCP4WebsitePlugin]
   * remoteCP 3
