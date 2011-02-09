@@ -117,7 +117,7 @@ Um das Manialink Framework zu verstehen sollte man zuerst seinen Ablauf und die 
 
 # Aufruf der Methode *manialink::display* ohne Parameter (Hauptprogramm Ablaufschritt: 2.a.7.e.)
 
-  * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf *onMLContainer<name>*
+  * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf *onMLContainer`<name>`*
   * Ermitteln des Manialink XML Code für jeden einzelnen derzeitig im System bekannten Spieler
   * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
   * Status reset der „Container“
@@ -127,13 +127,16 @@ Das Framework selbst wird direkt dann erzeugt wenn auch ein neuer Spieler dem Sy
 === Methoden ===
 
 *mixed ManiaFWK::addWindow ( string $name, string $title, float $posx, float $posy, float $width )*
-Fügt ein neues Fenster mit dem Title $title und dem Id-Namen $name zum Manialink Framework hinzu. $posx, $posy und $width legen die Horizontale, Vertikale Position sowie die Breite des Fensters fest. Im Erfolgsfall gibt die Funktion ein rcp_maniawindow Objekt zurück, im Fehlerfall FALSE!
+
+ Fügt ein neues Fenster mit dem Title $title und dem Id-Namen $name zum Manialink Framework hinzu. $posx, $posy und $width legen die Horizontale, Vertikale Position sowie die Breite des Fensters fest. Im Erfolgsfall gibt die Funktion ein rcp_maniawindow Objekt zurück, im Fehlerfall FALSE!
 
 *mixed ManiaFWK::getWindow ( string $name )*
-Liefert das rcp_maniawindow Objekt zum Fenster mit dem Namen $name, im Fehlerfall FALSE!
+
+ Liefert das rcp_maniawindow Objekt zum Fenster mit dem Namen $name, im Fehlerfall FALSE!
 
 *boolean ManiaFWK::setCustomUi ( string $element, boolean $value )*
-Setzt für das CustomUi Element $element den Status $value. Für $element erlaubt sind die Werte:
+
+ Setzt für das CustomUi Element $element den Status $value. Für $element erlaubt sind die Werte:
 
 || *Wert* || *Type* || *Beispiel Wert* || *Definition* ||
 || notice || boolean || true || Notice Nachrichten links oben, an/ausschalten ||
@@ -145,7 +148,8 @@ Setzt für das CustomUi Element $element den Status $value. Für $element erlaub
 || global || boolean || true || alles an/ausschalten ||
 
 *boolean ManiaWindow::setOption ( string $option, mixed $value )*
-Setzt für die Fenster-Option $option den Wert $value. Für $option erlaubt sind die Werte
+
+ Setzt für die Fenster-Option $option den Wert $value. Für $option erlaubt sind die Werte
 
 || *Attribut* || *Type* || *Beispiel Wert* || *Definition* ||
 || icon || string || Forever || siehe Manialink example für weitere Werte zu diesem Attribut ||
@@ -163,22 +167,28 @@ Setzt für die Fenster-Option $option den Wert $value. Für $option erlaubt sind
 || inspec || boolean || true || Legt fest ob das Fenster im Spectatormode angezeigt wird ||
 
 *void ManiaWindow::Refresh ( )*
-Sorgt dafür, dass ein Fenster beim nächsten Programmdurchlauf neu gezeichnet wird, dabei wird jedoch nicht der XML Code neu erzeugt.
+
+ Sorgt dafür, dass ein Fenster beim nächsten Programmdurchlauf neu gezeichnet wird, dabei wird jedoch nicht der XML Code neu erzeugt.
 
 *void ManiaWindow::Reset ( )*
-Löscht den existierenden XML Code und sorgt dafür, dass beim nächsten Programmdurchlauf der XML Code des Fensters neu erstellt wird und darauf das Fenster neu gezeichnet wird.
+
+ Löscht den existierenden XML Code und sorgt dafür, dass beim nächsten Programmdurchlauf der XML Code des Fensters neu erstellt wird und darauf das Fenster neu gezeichnet wird.
 
 *void ManiaWindow::Frame ( [ float $posx, float $posy, float $width, array $styles, mixed $mla, mixed $align ] )*
-Fügt dem Fenster ein neues Frame hinzu. Besonders zu beachten ist der Parameter $align, dieser legt fest wie sich ein Frame relativ zum vorherigen verhält. Folgende Werte sind hier erlaubt: vertical align = FALSE, overlapping = TRUE, horizontal align = NULL
+
+ Fügt dem Fenster ein neues Frame hinzu. Besonders zu beachten ist der Parameter $align, dieser legt fest wie sich ein Frame relativ zum vorherigen verhält. Folgende Werte sind hier erlaubt: vertical align = FALSE, overlapping = TRUE, horizontal align = NULL
  
 *void ManiaWindow::Line ( [ array $styles, mixed $mla ] )*
-Fügt dem Fenster eine neue Zeile (ähnlich einer Tabelle) hinzu.
+
+ Fügt dem Fenster eine neue Zeile (ähnlich einer Tabelle) hinzu.
 
 *void ManiaWindow::Cell ( string $text, mixed $size, [ mixed $mla, mixed $attributes ] )*
-Fügt dem Fenster eine neue Zelle zur letzten hinzugefügten Zeile (ähnlich einer Tabelle) hinzu. $size ist entweder ein string der mit einem %-Zeichen endet und einem Wert von 0 – 100, was der Prozentualen Breite dieser Zelle zur gesamt Fenstergröße entspricht oder ein float (nur Breite) bzw. float array (Breite und Höhe) mit Trackmania Manialink Größenangaben.
+
+ Fügt dem Fenster eine neue Zelle zur letzten hinzugefügten Zeile (ähnlich einer Tabelle) hinzu. $size ist entweder ein string der mit einem %-Zeichen endet und einem Wert von 0 – 100, was der Prozentualen Breite dieser Zelle zur gesamt Fenstergröße entspricht oder ein float (nur Breite) bzw. float array (Breite und Höhe) mit Trackmania Manialink Größenangaben.
 
 *void ManiaWindow::CustomXML ( string $xml, [ float $height ] )*
-Fügt dem Fenster Benuterdefiniertes Manialink XML an der Position der zuletzt hinzugefügten Zeile hinzu.
+
+ Fügt dem Fenster Benuterdefiniertes Manialink XML an der Position der zuletzt hinzugefügten Zeile hinzu.
 
 == Abschnitt D: Callback Aufrufe mit triggerEvent ==
 
