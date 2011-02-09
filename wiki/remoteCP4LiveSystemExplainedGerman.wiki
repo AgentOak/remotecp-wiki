@@ -2,24 +2,29 @@
 
 Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlangen und somit in der Lage zu sein auch mit geringen PHP Kenntnissen eigene Plugins zu erstellen. Generell wird aber etwas Grundwissen vorausgesetzt! Im gesamten Dokument sind einige besondere Elemente speziell Formatiert:
 
-|| Element || Formatierung || Beispiel
-|| Klassen || fett + kursiv || *_ManiaFWK_*
-|| Klassen Methoden || fett || *onLoad*
-|| Variablen ||	kursiv || _$system_
+|| *Element* || *Formatierung* || *Beispiel* ||
+|| Klassen || fett + kursiv || *_ManiaFWK_* ||
+|| Klassen Methoden || fett || *onLoad* ||
+|| Variablen ||	kursiv || _$system_ ||
 
 
 === Abschnitt A: Allgemeiner remoteCP Live Ablauf ===
 
 # Laden des Kern Systems
 # Prüfung ob der aktuelle Benutzer eingeloggt ist
+
   * Benutzer eingeloggt - Ausführen des Hauptprogramms
+
     # Laden des Plugin Systems
     # Ausgabe einiger Informationen
     # Laden aller in der /xml/settings/settingset/live.xml angegebenen Plugins, je Plugin wird folgendes ausgeführt:
+
       * Prüfung der plugin::$vpermission, bei Misserfolg wird das Plugin zerstört
       * Prüfung von plugin::$nservcon
+
         # Herstellen der Verbindung mit dem Dedicated Server und ermitteln der Server Statusdaten (einmalig)
         # Prüfung von plugin::$ngame
+
       * Prüfung von plugin::nsqlcon (einmalig)
       * Laden der Sprachdatei(en)
       * Laden der Plugin settings (setting.xml) und Callback Aufruf: onLoadSettings (nur aktuelles Plugin)
@@ -29,9 +34,11 @@ Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlan
     # Aktivieren der Dedicated Server Callbacks
     # Callback Aufruf: onLive
     # Endlosschleife des Hauptprogramms
+
       * Ausgabe ev. hinzugefügter Nachrichten (siehe messages::add)
       * Prüfung ob neue Dedicated Server Callbacks verfügbar sind
       * Ausführung aller ermittelten Callbacks und Aufruf entsprechender Plugin Methoden
+
         # TrackMania.PlayerManialinkPageAnswer		Aufruf des manialink::display (Spieler bezogen)
         # TrackMania.PlayerCheckpoint			onPlayerCheckpoint
         # TrackMania.PlayerChat			onPlayerChat
@@ -54,11 +61,14 @@ Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlan
         # Trackmania.TunnelDataReceived		onTunnelDataReceived
         # Trackmania.ManualFlowControlTransition		onManualFlowControlTransition
         # TrackMania.Echo				onEcho
+
       * CPU Limiter, limitiert die Ausführungsgeschwindigkeit und damit die CPU Last
       * Ausführen von timedevents::execute
       * Aufruf des Manialink Frameworks manialink::display
       * Ausführung hinzugefügter Server Methoden und Callback Aufruf: onExec (siehe actions::add)
+
     # Plugin System beenden, Callback Aufruf: onUnLoad
+
   * Benutzer nicht eingeloggt - Fehlermeldungen ausgeben
 
  
@@ -66,33 +76,33 @@ Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlan
 
 Ein typisches remoteCP Plugin ist immer eine PHP5 Klasse die um die Klasse rcp_plugin bzw. rcp_liveplugin erweitert wurde. Es gibt keine Methoden und Variablen die zwingend erforderlich sind, allerdings sind einige durch das erweitern der Klasse bereits vorhanden.
 
-Standartmethoden:
+==== Standartmethoden ====
 
-|| Methode || RCP Typ || Definition
-|| isEnabled || beide || Gibt zurück ob das Plugin aktiviert ist (als boolean)
-|| addQuickOption || nur rcp_plugin || Fügt eine Option zur Icon Navigation (rechts oben) hinzu
-|| addAdminOption || nur rcp_liveplugin || Fügt eine Option zur Plugin-Adminsitration hinzu
-|| onMLAEnabled	|| nur rcp_liveplugin || Gibt zurück ob das Plugin aktuell aktiviert ist (als string) bzw. ändert den Status
+|| *Methode* || *RCP Typ* || *Definition* ||
+|| isEnabled || beide || Gibt zurück ob das Plugin aktiviert ist (als boolean) ||
+|| addQuickOption || nur rcp_plugin || Fügt eine Option zur Icon Navigation (rechts oben) hinzu ||
+|| addAdminOption || nur rcp_liveplugin || Fügt eine Option zur Plugin-Adminsitration hinzu ||
+|| onMLAEnabled	|| nur rcp_liveplugin || Gibt zurück ob das Plugin aktuell aktiviert ist (als string) bzw. ändert den Status ||
 
-*Standartvariablen:*
+==== Standartvariablen ====
 
-|| Name || RCP Typ || PHP Typ || Standard || Definition
-|| $id || beide || string || -- || Einzigartiger Name des Plugins
-|| $display || nur Webinterface || string || main || Anzeige Ort des Plugins
-|| $author || beide || string || n/a || Autor des Plugins
-|| $version || beide || string || n/a || Version des Plugins
-|| $usejs || nur Webinterface || boolean || FALSE || Legt fest ob das Plugin eigene Javascript Assets verwendet
-|| $usecss || nur Webinterface || boolean || FALSE || Legt fest ob das Plugin eigene StyleSheet Assets verwendet
-|| $nservcon || beide || boolean || FALSE || Legt fest ob das Plugin eine Server-Verbindung benötigt
-|| $nsqlcon || beide || boolean || FALSE || Legt fest ob das Plugin eine MySQL-Verbindung benötigt
-|| $nservstatus || beide || array || array(0..5) || Legt fest ob das Plugin bestimmte Serverstatus Codes benötigt
-|| $ngame || beide || boolean || FALSE || Legt fest ob das Plugin ein bestimmtes Spiel benötigt
-|| $vpermissions || beide || array || array(null) || Legt fest ob das Plugin ein bestimmtes Zugriffsrecht zum ansehen benötigt
-|| $apermissions || beide || array || array() || Legt fest ob das Plugin ein bestimmte Zugriffsrechte zum Ausführen von Aktionen benötigt
-|| $quickoptions || nur Webinterface || array || array() || --
-|| $enabled || beide || boolean || TRUE || wenn = null, ist es unmöglich das Plugin zu deaktivieren
-|| $active || beide || boolean || TRUE || wenn = null, ist es unmöglich das Plugin inaktiv zu schalten
-|| $adminoptions || nur Live || array || array() || --
+|| *Name* || *RCP Typ* || *PHP Typ* || *Standard* || *Definition* ||
+|| $id || beide || string || -- || Einzigartiger Name des Plugins ||
+|| $display || nur Webinterface || string || main || Anzeige Ort des Plugins ||
+|| $author || beide || string || n/a || Autor des Plugins ||
+|| $version || beide || string || n/a || Version des Plugins ||
+|| $usejs || nur Webinterface || boolean || FALSE || Legt fest ob das Plugin eigene Javascript Assets verwendet ||
+|| $usecss || nur Webinterface || boolean || FALSE || Legt fest ob das Plugin eigene StyleSheet Assets verwendet ||
+|| $nservcon || beide || boolean || FALSE || Legt fest ob das Plugin eine Server-Verbindung benötigt ||
+|| $nsqlcon || beide || boolean || FALSE || Legt fest ob das Plugin eine MySQL-Verbindung benötigt ||
+|| $nservstatus || beide || array || array(0..5) || Legt fest ob das Plugin bestimmte Serverstatus Codes benötigt ||
+|| $ngame || beide || boolean || FALSE || Legt fest ob das Plugin ein bestimmtes Spiel benötigt ||
+|| $vpermissions || beide || array || array(null) || Legt fest ob das Plugin ein bestimmtes Zugriffsrecht zum ansehen benötigt ||
+|| $apermissions || beide || array || array() || Legt fest ob das Plugin ein bestimmte Zugriffsrechte zum Ausführen von Aktionen benötigt ||
+|| $quickoptions || nur Webinterface || array || array() || -- ||
+|| $enabled || beide || boolean || TRUE || wenn = null, ist es unmöglich das Plugin zu deaktivieren ||
+|| $active || beide || boolean || TRUE || wenn = null, ist es unmöglich das Plugin inaktiv zu schalten ||
+|| $adminoptions || nur Live || array || array() || -- ||
 
 
 === Abschnitt C: Das Manialink Framework ===
@@ -100,14 +110,17 @@ Standartmethoden:
 Um das Manialink Framework zu verstehen sollte man zuerst seinen Ablauf und die Implementierung in remoteCP kennen lernen. Denn auch wenn das Framework für remoteCP geschrieben wurde, ist es doch so angelegt das es auch für andere zwecke einsetzbar ist! Der grobe Ablauf sieht wie folgt aus:
 
 # Aufruf der Methode manialink::display mit den Parametern des Server callbacks TrackMania.PlayerManialinkPageAnswer (Hauptprogramm Ablaufschritt: 2.a.7.c.3)
+
   * Ermitteln des Spielers der die ManialinkPageAnswer ausgelöst hat
   * Passendes Callback zur übermittelten Action ID ermitteln
   * Ermitteltes Callback ausführen
   * Callback Aufruf: onPlayerManialinkPageAnswer
   * Ermitteln des Manialink XML’s für den ermittelten Spieler
   * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
+
 # Aufruf der Methode manialink::display ohne Parameter
 (Hauptprogramm Ablaufschritt: 2.a.7.e.)
+
   * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf onMLContainer<name>
   * Ermitteln des Manialink XML Code für jeden einzelnen derzeitig im System bekannten Spieler
   * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
@@ -126,32 +139,32 @@ Liefert das rcp_maniawindow Objekt zum Fenster mit dem Namen $name, im Fehlerfal
 *boolean ManiaFWK::setCustomUi ( string $element, boolean $value )*
 Setzt für das CustomUi Element $element den Status $value. Für $element erlaubt sind die Werte:
 
-|| Wert || Type || Beispiel Wert || Definition
-|| notice || boolean || true || Notice Nachrichten links oben, an/ausschalten
-|| challenge_info || boolean || true || Challenge Informationen rechts oben, an/ausschalten
-|| chat || boolean || true || Chat, an/ausschalten
-|| checkpoint_list || boolean || true || Checkpoint Zeiten rechts unten, an/ausschalten
-|| round_scores || boolean || true || Punkte Tabelle am ende einer Runde im Tuniermodus, an/ausschalten
-|| scoretable || boolean || true || unbekannt
-|| global || boolean || true || alles an/ausschalten
+|| *Wert* || *Type* || *Beispiel Wert* || *Definition* ||
+|| notice || boolean || true || Notice Nachrichten links oben, an/ausschalten ||
+|| challenge_info || boolean || true || Challenge Informationen rechts oben, an/ausschalten ||
+|| chat || boolean || true || Chat, an/ausschalten ||
+|| checkpoint_list || boolean || true || Checkpoint Zeiten rechts unten, an/ausschalten ||
+|| round_scores || boolean || true || Punkte Tabelle am ende einer Runde im Tuniermodus, an/ausschalten ||
+|| scoretable || boolean || true || unbekannt ||
+|| global || boolean || true || alles an/ausschalten ||
 
 *boolean ManiaWindow::setOption ( string $option, mixed $value )*
 Setzt für die Fenster-Option $option den Wert $value. Für $option erlaubt sind die Werte
 
-|| Attribut || Type || Beispiel Wert || Definition
-|| icon || string || Forever || siehe Manialink example für weitere Werte zu diesem Attribut
-|| title || string || Fenstertitel || Titel des Fenster, wird nur angezeigt wenn header aktiv ist
-|| timeout || int || 8 || Zeitraum in Sekunden bis das Fenster automatisch wieder verschwindet
-|| static || boolean || true || Legt fest ob das Fenster statisch und somit ständig sichtbar ist
-|| close || boolean || true || Legt fest ob das Fenster schließbar ist, nur verfügbar mit aktivem header
-|| header || boolean || true || Legt fest ob der Fensterkopf samt Titelzeile, Icon etc. angezeigt wird
-|| bg || boolean || true || Legt fest ob das Fenster einen Hintergrund style verwendet
-|| width || float || 20.75 || Breite des Fensters
-|| posx || float || 60.25 || Horizontale Position des Fensters
-|| posy || float || 0.5 || Vertikale Position des Fensters
-|| lineheight || float || 3.0 || Höhe einer Zeile ohne explizite Höhenangabe im Fenster
-|| display || string || all || Definiert wann ein Fenster angezeigt wird, immer (all), während des Rennens (race) oder während des Scorings (score)
-|| inspec || boolean || true || Legt fest ob das Fenster im Spectatormode angezeigt wird
+|| *Attribut* || *Type* || *Beispiel Wert* || *Definition* ||
+|| icon || string || Forever || siehe Manialink example für weitere Werte zu diesem Attribut ||
+|| title || string || Fenstertitel || Titel des Fenster, wird nur angezeigt wenn header aktiv ist ||
+|| timeout || int || 8 || Zeitraum in Sekunden bis das Fenster automatisch wieder verschwindet ||
+|| static || boolean || true || Legt fest ob das Fenster statisch und somit ständig sichtbar ist ||
+|| close || boolean || true || Legt fest ob das Fenster schließbar ist, nur verfügbar mit aktivem header ||
+|| header || boolean || true || Legt fest ob der Fensterkopf samt Titelzeile, Icon etc. angezeigt wird ||
+|| bg || boolean || true || Legt fest ob das Fenster einen Hintergrund style verwendet ||
+|| width || float || 20.75 || Breite des Fensters ||
+|| posx || float || 60.25 || Horizontale Position des Fensters ||
+|| posy || float || 0.5 || Vertikale Position des Fensters ||
+|| lineheight || float || 3.0 || Höhe einer Zeile ohne explizite Höhenangabe im Fenster ||
+|| display || string || all || Definiert wann ein Fenster angezeigt wird, immer (all), während des Rennens (race) oder während des Scorings (score) ||
+|| inspec || boolean || true || Legt fest ob das Fenster im Spectatormode angezeigt wird ||
 
 *void ManiaWindow::Refresh ( )*
 Sorgt dafür, dass ein Fenster beim nächsten Programmdurchlauf neu gezeichnet wird, dabei wird jedoch nicht der XML Code neu erzeugt.
