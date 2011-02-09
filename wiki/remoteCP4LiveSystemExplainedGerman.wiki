@@ -1,34 +1,29 @@
+#labels Featured
 == Einführung ==
 
-Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlangen und somit in der Lage zu sein auch mit geringen PHP Kenntnissen eigene Plugins zu erstellen. Generell wird aber etwas Grundwissen vorausgesetzt! Im gesamten Dokument sind einige besondere Elemente speziell Formatiert:
+Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlangen und somit in der Lage zu sein auch mit geringen PHP Kenntnissen eigene Plugins zu erstellen. Generell wird aber etwas Grundwissen vorausgesetzt!
 
-|| *Element* || *Formatierung* || *Beispiel* ||
-|| Klassen || fett + kursiv || *_ManiaFWK_* ||
-|| Klassen Methoden || fett || *onLoad* ||
-|| Variablen ||	kursiv || _$system_ ||
+== Abschnitt A: Allgemeiner remoteCP Live Ablauf ==
 
+* Laden des Kern Systems
+* Prüfung ob der aktuelle Benutzer eingeloggt ist
 
-=== Abschnitt A: Allgemeiner remoteCP Live Ablauf ===
+    * Benutzer eingeloggt - Ausführen des Hauptprogramms
 
-# Laden des Kern Systems
-# Prüfung ob der aktuelle Benutzer eingeloggt ist
+        # Laden des Plugin Systems
+        # Ausgabe einiger Informationen
+        # Laden aller in der /xml/settings/settingset/live.xml angegebenen Plugins, je Plugin wird folgendes ausgeführt:
 
-  * Benutzer eingeloggt - Ausführen des Hauptprogramms
-
-    # Laden des Plugin Systems
-    # Ausgabe einiger Informationen
-    # Laden aller in der /xml/settings/settingset/live.xml angegebenen Plugins, je Plugin wird folgendes ausgeführt:
-
-      * Prüfung der plugin::$vpermission, bei Misserfolg wird das Plugin zerstört
-      * Prüfung von plugin::$nservcon
+    * Prüfung der plugin::$vpermission, bei Misserfolg wird das Plugin zerstört
+    * Prüfung von plugin::$nservcon
 
         # Herstellen der Verbindung mit dem Dedicated Server und ermitteln der Server Statusdaten (einmalig)
         # Prüfung von plugin::$ngame
 
-      * Prüfung von plugin::nsqlcon (einmalig)
-      * Laden der Sprachdatei(en)
-      * Laden der Plugin settings (setting.xml) und Callback Aufruf: onLoadSettings (nur aktuelles Plugin)
-      * Callback Aufruf: onLoad (nur aktuelles Plugin)
+    * Prüfung von plugin::nsqlcon (einmalig)
+    * Laden der Sprachdatei(en)
+    * Laden der Plugin settings (setting.xml) und Callback Aufruf: onLoadSettings (nur aktuelles Plugin)
+    * Callback Aufruf: onLoad (nur aktuelles Plugin)
 
     # Erstellen der Übersetzungen (siehe 3.d.)
     # Aktivieren der Dedicated Server Callbacks
@@ -39,28 +34,28 @@ Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlan
       * Prüfung ob neue Dedicated Server Callbacks verfügbar sind
       * Ausführung aller ermittelten Callbacks und Aufruf entsprechender Plugin Methoden
 
-        # TrackMania.PlayerManialinkPageAnswer		Aufruf des manialink::display (Spieler bezogen)
-        # TrackMania.PlayerCheckpoint			onPlayerCheckpoint
-        # TrackMania.PlayerChat			onPlayerChat
-        # TrackMania.PlayerConnect 			onPlayerConnect
-        # TrackMania.PlayerInfoChanged			onPlayerInfoChanged
-        # TrackMania.PlayerFinish			onPlayerFinish
-        # TrackMania.PlayerIncoherence			onPlayerIncoherence
-        # TrackMania.PlayerDisconnect			onPlayerDisconnect
-        # TrackMania.ChallengeListModified		onChallengeListModified
-        # Trackmania.BeginChallenge			onBeginChallenge
-        # TrackMania.BeginRace			onBeginRace
-        # TrackMania.BeginRound			onBeginRound
-        # TrackMania.EndRound			onEndRound
-        # TrackMania.EndRace				onEndRace
-        # TrackMania.EndChallenge			onEndChallenge
-        # TrackMania.StatusChanged			onStatusChanged
-        # TrackMania.BillUpdated			onBillUpdated
-        # Trackmania.ServerStart			onServerStart
-        # TrackMania.ServerStop			onServerStop
-        # Trackmania.TunnelDataReceived		onTunnelDataReceived
-        # Trackmania.ManualFlowControlTransition		onManualFlowControlTransition
-        # TrackMania.Echo				onEcho
+        # TrackMania.PlayerManialinkPageAnswer  Aufruf des manialink::display (Spieler bezogen)
+        # TrackMania.PlayerCheckpoint   onPlayerCheckpoint
+        # TrackMania.PlayerChat   onPlayerChat
+        # TrackMania.PlayerConnect    onPlayerConnect
+        # TrackMania.PlayerInfoChanged   onPlayerInfoChanged
+        # TrackMania.PlayerFinish   onPlayerFinish
+        # TrackMania.PlayerIncoherence   onPlayerIncoherence
+        # TrackMania.PlayerDisconnect   onPlayerDisconnect
+        # TrackMania.ChallengeListModified  onChallengeListModified
+        # Trackmania.BeginChallenge   onBeginChallenge
+        # TrackMania.BeginRace   onBeginRace
+        # TrackMania.BeginRound   onBeginRound
+        # TrackMania.EndRound   onEndRound
+        # TrackMania.EndRace    onEndRace
+        # TrackMania.EndChallenge   onEndChallenge
+        # TrackMania.StatusChanged   onStatusChanged
+        # TrackMania.BillUpdated   onBillUpdated
+        # Trackmania.ServerStart   onServerStart
+        # TrackMania.ServerStop   onServerStop
+        # Trackmania.TunnelDataReceived  onTunnelDataReceived
+        # Trackmania.ManualFlowControlTransition  onManualFlowControlTransition
+        # TrackMania.Echo    onEcho
 
       * CPU Limiter, limitiert die Ausführungsgeschwindigkeit und damit die CPU Last
       * Ausführen von timedevents::execute
@@ -71,20 +66,21 @@ Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlan
 
   * Benutzer nicht eingeloggt - Fehlermeldungen ausgeben
 
- 
-=== Abschnitt B: Plugins ===
 
-Ein typisches remoteCP Plugin ist immer eine PHP5 Klasse die um die Klasse rcp_plugin bzw. rcp_liveplugin erweitert wurde. Es gibt keine Methoden und Variablen die zwingend erforderlich sind, allerdings sind einige durch das erweitern der Klasse bereits vorhanden.
 
-==== Standartmethoden ====
+== Abschnitt B: Plugins ==
+
+Ein typisches remoteCP Plugin ist immer eine PHP5 Klasse die um die Klasse *rcp_plugin* bzw. *rcp_liveplugin* erweitert wurde. Es gibt keine Methoden und Variablen die zwingend erforderlich sind, allerdings sind einige durch das erweitern der Klasse bereits vorhanden.
+
+=== Standartmethoden ===
 
 || *Methode* || *RCP Typ* || *Definition* ||
 || isEnabled || beide || Gibt zurück ob das Plugin aktiviert ist (als boolean) ||
 || addQuickOption || nur rcp_plugin || Fügt eine Option zur Icon Navigation (rechts oben) hinzu ||
 || addAdminOption || nur rcp_liveplugin || Fügt eine Option zur Plugin-Adminsitration hinzu ||
-|| onMLAEnabled	|| nur rcp_liveplugin || Gibt zurück ob das Plugin aktuell aktiviert ist (als string) bzw. ändert den Status ||
+|| onMLAEnabled || nur rcp_liveplugin || Gibt zurück ob das Plugin aktuell aktiviert ist (als string) bzw. ändert den Status ||
 
-==== Standartvariablen ====
+=== Standartvariablen ===
 
 || *Name* || *RCP Typ* || *PHP Typ* || *Standard* || *Definition* ||
 || $id || beide || string || -- || Einzigartiger Name des Plugins ||
@@ -105,30 +101,30 @@ Ein typisches remoteCP Plugin ist immer eine PHP5 Klasse die um die Klasse rcp_p
 || $adminoptions || nur Live || array || array() || -- ||
 
 
-=== Abschnitt C: Das Manialink Framework ===
+
+== Abschnitt C: Das Manialink Framework ==
 
 Um das Manialink Framework zu verstehen sollte man zuerst seinen Ablauf und die Implementierung in remoteCP kennen lernen. Denn auch wenn das Framework für remoteCP geschrieben wurde, ist es doch so angelegt das es auch für andere zwecke einsetzbar ist! Der grobe Ablauf sieht wie folgt aus:
 
-# Aufruf der Methode manialink::display mit den Parametern des Server callbacks TrackMania.PlayerManialinkPageAnswer (Hauptprogramm Ablaufschritt: 2.a.7.c.3)
+# Aufruf der Methode *manialink::display* mit den Parametern des Server callbacks *TrackMania.PlayerManialinkPageAnswer* (Hauptprogramm Ablaufschritt: 2.a.7.c.3)
 
   * Ermitteln des Spielers der die ManialinkPageAnswer ausgelöst hat
   * Passendes Callback zur übermittelten Action ID ermitteln
   * Ermitteltes Callback ausführen
-  * Callback Aufruf: onPlayerManialinkPageAnswer
+  * Callback Aufruf: *onPlayerManialinkPageAnswer*
   * Ermitteln des Manialink XML’s für den ermittelten Spieler
   * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
 
-# Aufruf der Methode manialink::display ohne Parameter
-(Hauptprogramm Ablaufschritt: 2.a.7.e.)
+# Aufruf der Methode *manialink::display* ohne Parameter (Hauptprogramm Ablaufschritt: 2.a.7.e.)
 
-  * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf onMLContainer<name>
+  * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf *onMLContainer<name>*
   * Ermitteln des Manialink XML Code für jeden einzelnen derzeitig im System bekannten Spieler
   * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
   * Status reset der „Container“
 
-Das Framework selbst wird direkt dann erzeugt wenn auch ein neuer Spieler dem System hinzugefügt wird. Somit besitzt jeder Spieler sein eigenes Framework. Beim erzeugen des Frameworks wird dann direkt das Callback onNewPlayer in allen Plugins ausgeführt und dadurch alle Manialink Fenster und Container dem Framework hinzugefügt. Somit MUSS ein neues Fenster in der Methode onNewPlayer definiert werden, sonst kann es passieren das einigen Spielern unter umständen das Fenster unbekannt ist.
+Das Framework selbst wird direkt dann erzeugt wenn auch ein neuer Spieler dem System hinzugefügt wird. Somit besitzt jeder Spieler sein eigenes Framework. Beim erzeugen des Frameworks wird dann direkt das Callback *onNewPlayer* in allen Plugins ausgeführt und dadurch alle Manialink Fenster und Container dem Framework hinzugefügt. Somit MUSS ein neues Fenster in der Methode *onNewPlayer* definiert werden, sonst kann es passieren das einigen Spielern unter umständen das Fenster unbekannt ist.
 
-==== Methoden ====
+=== Methoden ===
 
 *mixed ManiaFWK::addWindow ( string $name, string $title, float $posx, float $posy, float $width )*
 Fügt ein neues Fenster mit dem Title $title und dem Id-Namen $name zum Manialink Framework hinzu. $posx, $posy und $width legen die Horizontale, Vertikale Position sowie die Breite des Fensters fest. Im Erfolgsfall gibt die Funktion ein rcp_maniawindow Objekt zurück, im Fehlerfall FALSE!
@@ -184,18 +180,16 @@ Fügt dem Fenster eine neue Zelle zur letzten hinzugefügten Zeile (ähnlich ein
 *void ManiaWindow::CustomXML ( string $xml, [ float $height ] )*
 Fügt dem Fenster Benuterdefiniertes Manialink XML an der Position der zuletzt hinzugefügten Zeile hinzu.
 
-
-=== Abschnitt D: Callback Aufrufe mit triggerEvent ===
+== Abschnitt D: Callback Aufrufe mit triggerEvent ==
 
 Generell werden alle Callback Aufrufe über die Methode triggerEvent des Plugin Systems getätigt. triggerEvent kann auf zwei Arten aufgerufen werden:
 
 # nur mit dem Methodennamen, dann werden alle Plugins die diese Methode enthalten in der Reihenfolge wie sie in der Datei /xml/settings/settingset/live.xml gelistet sind ausgeführt
 # mit einem Array in der Form array((string) Methodenname, (mixed) PluginId), in diesem Fall wird explizit nur die Methode eines Plugins aufgerufen.
 
-Egal welche Methode Verwendung findet, triggerEvent prüft bei jedem Aufruf den Pluginwert plugin::$nservstatus und stoppt die Ausführung der Methode für das jeweilige Plugin wenn der aktuelle Serverstatus nicht dem benötigten Werten entspricht. Außerdem führt triggerEvent nur Methoden in aktivierten (plugin::$enabled) Plugins aus. Einzige Ausnahmen sind hier die Methoden onMLEnabled und onNewPlayer, ohne die ein aktivieren des Plugins ebenfalls nicht mehr möglich wäre.
+Egal welche Methode Verwendung findet, triggerEvent prüft bei jedem Aufruf den Pluginwert *plugin::$nservstatus* und stoppt die Ausführung der Methode für das jeweilige Plugin wenn der aktuelle Serverstatus nicht dem benötigten Werten entspricht. Außerdem führt triggerEvent nur Methoden in aktivierten (*plugin::$enabled*) Plugins aus. Einzige Ausnahmen sind hier die Methoden *onMLEnabled* und *onNewPlayer*, ohne die ein aktivieren des Plugins ebenfalls nicht mehr möglich wäre.
 
-
-=== Abschnitt E: Live Plugin selbst schreiben – ein kleines Tutorial ===
+== Abschnitt E: Live Plugin selbst schreiben – ein kleines Tutorial ==
 
 Nun versuchen wir ein einfaches sehr simples Plugin zu schreiben. Das Plugin soll später bei jedem neuen Spieler, ein Manialinkfenster anzeigen das einige Informationen zu remoteCP Live enthält.
 
@@ -204,9 +198,9 @@ Generell beginnt jedes RCP Plugin mit folgendem Grundgerüst:
 <?php
 class PluginName extends rcp_liveplugin
 {
-	public  $title		= 'PluginName';
-	public  $author	= 'DeinName';
-	public  $version	= '4.0.3.3';
+  public  $title  = 'PluginName';
+  public  $author = 'DeinName';
+  public  $version = '4.0.3.3';
 }
 ?>
 }}}
@@ -216,10 +210,10 @@ Nun wollen wir erst einmal, dass ein Admin das Plugin nicht mehr über das Admin
 <?php
 class PluginName extends rcp_liveplugin
 {
-	public  $title		= 'PluginName';
-	public  $author	= 'DeinName';
-	public  $version	= '4.0.3.3';
-	public  $enabled	= null;
+  public  $title  = 'PluginName';
+  public  $author = 'DeinName';
+  public  $version = '4.0.3.3';
+  public  $enabled = null;
 }
 ?>
 }}}
@@ -231,20 +225,20 @@ Im folgenden Schritt wollen wir erkennen wenn ein neuer Spieler den Server betri
 <?php
 class PluginName extends rcp_liveplugin
 {
-	public  $title		= 'PluginName';
-	public  $author	= 'DeinName';
-	public  $version	= '4.0.3.3';
-	public  $enabled	= null;
+  public  $title  = 'PluginName';
+  public  $author = 'DeinName';
+  public  $version = '4.0.3.3';
+  public  $enabled = null;
 
-	public function onPlayerConnect($params)
-{
-	//onPlayerConnect Parameter:
-	// Type: array
-	// Index	| Beschreibung
-	// 0 	  	| Spieler Login
-	// 1		| IsSpectator
-	$login = $params[0];
-	}
+  public function onPlayerConnect($params)
+  {
+    //onPlayerConnect Parameter:
+    // Type: array
+    // Index | Beschreibung
+    // 0     | Spieler Login
+    // 1  | IsSpectator
+    $login = $params[0];
+  }
 }
 ?>
 }}}
@@ -252,57 +246,54 @@ class PluginName extends rcp_liveplugin
 
 RCP wird nun bei jedem neuen Spieler diese Methode/Funktion aufrufen. Bisher passiert aber sonst noch nichts, außer das für die Laufzeit der Funktion der Login des Spielers in der Variable $login gespeichert wird.
 
-Als nächstes bauen wir das Manialinkfenster das unsere Informationen anzeigen soll. Hierzu verwenden wir die Funktionen des RCP Internen Manialink Frameworks. Man stelle sich hier einfach eine typische Excel Tabelle vor die von oben nach unten schrittweise aufgebaut wird. Line() erstellt hier jeweils eine neue Zeile und Cell() jeweils eine Zelle mit einer bestimmten Breite. Wir verwenden hier jedoch kein eigenes Fenster sondern das bereits vorhandene MLWindow so sparen wir Zeit und vor allem Ressourcen.
+Als nächstes bauen wir das Manialinkfenster das unsere Informationen anzeigen soll. Hierzu verwenden wir die Funktionen des RCP Internen Manialink Frameworks. Man stelle sich hier einfach eine typische Excel Tabelle vor die von oben nach unten schrittweise aufgebaut wird. *Line()* erstellt hier jeweils eine neue Zeile und *Cell()* jeweils eine Zelle mit einer bestimmten Breite. Wir verwenden hier jedoch kein eigenes Fenster sondern das bereits vorhandene MLWindow so sparen wir Zeit und vor allem Ressourcen.
 
-Bevor wir allerdings das Fenster aufbauen können benötigen wir das zum Spieler gehörende ManiaFWK. Dieses erhalten wir indem wir erst mit …get($login) das Spieler-Objekt ermitteln und es mit …check($player) überprüfen. Schlägt die Prüfung des Spieler-Objekts fehl, verlassen wir sofort onPlayerConnect und machen gar nichts.
+Bevor wir allerdings das Fenster aufbauen können benötigen wir das zum Spieler gehörende ManiaFWK. Dieses erhalten wir indem wir erst mit *…get($login)* das Spieler-Objekt ermitteln und es mit *…check($player)* überprüfen. Schlägt die Prüfung des Spieler-Objekts fehl, verlassen wir sofort *onPlayerConnect* und machen gar nichts.
 {{{
 public function onPlayerConnect($params)
 {
-	//onPlayerConnect Parameter:
-	// Typ: array
-	// Index	| Beschreibung
-	// 0 	  	| Spieler Login
-	// 1		| IsSpectator
-	$login = $params[0];
+  //onPlayerConnect Parameter:
+  // Typ: array
+  // Index | Beschreibung
+  // 0     | Spieler Login
+  // 1  | IsSpectator
+  $login = $params[0];
 
-	$player = Core::getObject('players')->get($login);
-	if(!Core::getObject('players')->check($player)) return;
-	$window = $player->ManiaFWK->getWindow('MLWindow');
-	if(!$window) return;
-	}
+  $player = Core::getObject('players')->get($login);
+  if(!Core::getObject('players')->check($player)) return;
+  $window = $player->ManiaFWK->getWindow('MLWindow');
+  if(!$window) return;
+}
 }}}
 
+Nun können wir unser Manialink Fenster zusammenbauen. Zuerst verändern wir mit *…setOption()* den Titel des Fensters und tauschen das Icon gegen ein eingängigeres. Dann erzeugen wir mit *…Line()* und *…Cell()* unser Fenster. Ich denke das sollte relativ selbst erklärend sein, wer aber mehr wissen möchte sollte einen blick in die Datei /includes/live/rcp_maniafwk.class.php werfen, alle wichtigen Methoden sind hier mit Kommentaren versehen.
 
- 
-
-Nun können wir unser Manialink Fenster zusammenbauen. Zuerst verändern wir mit …setOption() den Titel des Fensters und tauschen das Icon gegen ein eingängigeres. Dann erzeugen wir mit …Line() und …Cell() unser Fenster. Ich denke das sollte relativ selbst erklärend sein, wer aber mehr wissen möchte sollte einen blick in die Datei /includes/live/rcp_maniafwk.class.php werfen, alle wichtigen Methoden sind hier mit Kommentaren versehen.
-
-Der wichtigste Befehl hier ist das …Reset()! Ohne diesen würde das Fenster zwar mit Daten gefüllt werden, jedoch niemals ausgegeben werden. Dieser Befehl sorgt dafür, dass dieses Fenster beim Join eines Spielers angezeigt wird. Würde man kein …Reset() ausführen hätte man möglicherweise noch Inhalte aus dem vorherigen Aufruf ebenfalls mit im Fenster.
+Der wichtigste Befehl hier ist das *…Reset()*! Ohne diesen würde das Fenster zwar mit Daten gefüllt werden, jedoch niemals ausgegeben werden. Dieser Befehl sorgt dafür, dass dieses Fenster beim Join eines Spielers angezeigt wird. Würde man kein *…Reset()* ausführen hätte man möglicherweise noch Inhalte aus dem vorherigen Aufruf ebenfalls mit im Fenster.
 {{{
 public function onPlayerConnect($params)
 {
-	//onPlayerConnect Parameter:
-	// Typ: array
-	// Index	| Beschreibung
-	// 0 	  	| Spieler Login
-	// 1		| IsSpectator
-	$login = $params[0];
+  //onPlayerConnect Parameter:
+  // Typ: array
+  // Index | Beschreibung
+  // 0     | Spieler Login
+  // 1  | IsSpectator
+  $login = $params[0];
 
-	$player = Core::getObject('players')->get($login);
-	if(!Core::getObject('players')->check($player)) return;
-	$window = $player->ManiaFWK->getWindow('MLWindow');
-	if(!$window) return;
+  $player = Core::getObject('players')->get($login);
+  if(!Core::getObject('players')->check($player)) return;
+  $window = $player->ManiaFWK->getWindow('MLWindow');
+  if(!$window) return;
 
-	$window->Reset();
-	$window->setOption('title', 'SpielerInfo');
-	$window->setOption('icon', 'Coppers');
-	$window->Line();
-	$window->Cell('Hello '. $player->NickName, '100%');
-	$window->Line();
-	$window->Cell('Enjoy your stay! ', '100%');
-$window->Line();
-$window->Cell('Type $w/help$z into the chat for further commands', '100%');
-	}
+  $window->Reset();
+  $window->setOption('title', 'SpielerInfo');
+  $window->setOption('icon', 'Coppers');
+  $window->Line();
+  $window->Cell('Hello '. $player->NickName, '100%');
+  $window->Line();
+  $window->Cell('Enjoy your stay! ', '100%');
+  $window->Line();
+  $window->Cell('Type $w/help$z into the chat for further commands', '100%');
+}
 }}}
  
 
