@@ -5,68 +5,55 @@ Dieses Dokument soll helfen etwas mehr Wissen über den remoteCP Aufbau zu erlan
 
 == Abschnitt A: Allgemeiner remoteCP Live Ablauf ==
 
-* Laden des Kern Systems
-* Prüfung ob der aktuelle Benutzer eingeloggt ist
-
+  # Laden des Kern Systems
+  # Prüfung ob der aktuelle Benutzer eingeloggt ist
     * Benutzer eingeloggt - Ausführen des Hauptprogramms
-
-        # Laden des Plugin Systems
-        # Ausgabe einiger Informationen
-        # Laden aller in der /xml/settings/settingset/live.xml angegebenen Plugins, je Plugin wird folgendes ausgeführt:
-
-    * Prüfung der plugin::$vpermission, bei Misserfolg wird das Plugin zerstört
-    * Prüfung von plugin::$nservcon
-
-        # Herstellen der Verbindung mit dem Dedicated Server und ermitteln der Server Statusdaten (einmalig)
-        # Prüfung von plugin::$ngame
-
-    * Prüfung von plugin::nsqlcon (einmalig)
-    * Laden der Sprachdatei(en)
-    * Laden der Plugin settings (setting.xml) und Callback Aufruf: onLoadSettings (nur aktuelles Plugin)
-    * Callback Aufruf: onLoad (nur aktuelles Plugin)
-
-    # Erstellen der Übersetzungen (siehe 3.d.)
-    # Aktivieren der Dedicated Server Callbacks
-    # Callback Aufruf: onLive
-    # Endlosschleife des Hauptprogramms
-
-      * Ausgabe ev. hinzugefügter Nachrichten (siehe messages::add)
-      * Prüfung ob neue Dedicated Server Callbacks verfügbar sind
-      * Ausführung aller ermittelten Callbacks und Aufruf entsprechender Plugin Methoden
-
-        # TrackMania.PlayerManialinkPageAnswer  Aufruf des manialink::display (Spieler bezogen)
-        # TrackMania.PlayerCheckpoint   onPlayerCheckpoint
-        # TrackMania.PlayerChat   onPlayerChat
-        # TrackMania.PlayerConnect    onPlayerConnect
-        # TrackMania.PlayerInfoChanged   onPlayerInfoChanged
-        # TrackMania.PlayerFinish   onPlayerFinish
-        # TrackMania.PlayerIncoherence   onPlayerIncoherence
-        # TrackMania.PlayerDisconnect   onPlayerDisconnect
-        # TrackMania.ChallengeListModified  onChallengeListModified
-        # Trackmania.BeginChallenge   onBeginChallenge
-        # TrackMania.BeginRace   onBeginRace
-        # TrackMania.BeginRound   onBeginRound
-        # TrackMania.EndRound   onEndRound
-        # TrackMania.EndRace    onEndRace
-        # TrackMania.EndChallenge   onEndChallenge
-        # TrackMania.StatusChanged   onStatusChanged
-        # TrackMania.BillUpdated   onBillUpdated
-        # Trackmania.ServerStart   onServerStart
-        # TrackMania.ServerStop   onServerStop
-        # Trackmania.TunnelDataReceived  onTunnelDataReceived
-        # Trackmania.ManualFlowControlTransition  onManualFlowControlTransition
-        # TrackMania.Echo    onEcho
-
-      * CPU Limiter, limitiert die Ausführungsgeschwindigkeit und damit die CPU Last
-      * Ausführen von timedevents::execute
-      * Aufruf des Manialink Frameworks manialink::display
-      * Ausführung hinzugefügter Server Methoden und Callback Aufruf: onExec (siehe actions::add)
-
-    # Plugin System beenden, Callback Aufruf: onUnLoad
-
-  * Benutzer nicht eingeloggt - Fehlermeldungen ausgeben
-
-
+      # Laden des Plugin Systems
+      # Ausgabe einiger Informationen
+      # Laden aller in der /xml/settings/settingset/live.xml angegebenen Plugins, je Plugin wird folgendes ausgeführt:
+        * Prüfung der plugin::$vpermission, bei Misserfolg wird das Plugin zerstört
+        * Prüfung von plugin::$nservcon
+        * Herstellen der Verbindung mit dem Dedicated Server und ermitteln der Server Statusdaten (einmalig)
+        * Prüfung von plugin::$ngame
+        * Prüfung von plugin::nsqlcon (einmalig)
+        * Laden der Sprachdatei(en)
+        * Laden der Plugin settings (setting.xml) und Callback Aufruf: onLoadSettings (nur aktuelles Plugin)
+        * Callback Aufruf: onLoad (nur aktuelles Plugin)
+      # Erstellen der Übersetzungen (siehe 3.d.)
+      # Aktivieren der Dedicated Server Callbacks
+      # Callback Aufruf: onLive
+      # Endlosschleife des Hauptprogramms
+        * Ausgabe ev. hinzugefügter Nachrichten (siehe messages::add)
+        * Prüfung ob neue Dedicated Server Callbacks verfügbar sind
+        * Ausführung aller ermittelten Callbacks und Aufruf entsprechender Plugin Methoden
+          # TrackMania.PlayerManialinkPageAnswer  Aufruf des manialink::display (Spieler bezogen)
+          # TrackMania.PlayerCheckpoint   onPlayerCheckpoint
+          # TrackMania.PlayerChat   onPlayerChat
+          # TrackMania.PlayerConnect    onPlayerConnect
+          # TrackMania.PlayerInfoChanged   onPlayerInfoChanged
+          # TrackMania.PlayerFinish   onPlayerFinish
+          # TrackMania.PlayerIncoherence   onPlayerIncoherence
+          # TrackMania.PlayerDisconnect   onPlayerDisconnect
+          # TrackMania.ChallengeListModified  onChallengeListModified
+          # Trackmania.BeginChallenge   onBeginChallenge
+          # TrackMania.BeginRace   onBeginRace
+          # TrackMania.BeginRound   onBeginRound
+          # TrackMania.EndRound   onEndRound
+          # TrackMania.EndRace    onEndRace
+          # TrackMania.EndChallenge   onEndChallenge
+          # TrackMania.StatusChanged   onStatusChanged
+          # TrackMania.BillUpdated   onBillUpdated
+          # Trackmania.ServerStart   onServerStart
+          # TrackMania.ServerStop   onServerStop
+          # Trackmania.TunnelDataReceived  onTunnelDataReceived
+          # Trackmania.ManualFlowControlTransition  onManualFlowControlTransition
+          # TrackMania.Echo    onEcho
+        * CPU Limiter, limitiert die Ausführungsgeschwindigkeit und damit die CPU Last
+        * Ausführen von timedevents::execute
+        * Aufruf des Manialink Frameworks manialink::display
+        * Ausführung hinzugefügter Server Methoden und Callback Aufruf: onExec (siehe actions::add)
+      # Plugin System beenden, Callback Aufruf: onUnLoad
+    * Benutzer nicht eingeloggt - Fehlermeldungen ausgeben
 
 == Abschnitt B: Plugins ==
 
@@ -106,21 +93,18 @@ Ein typisches remoteCP Plugin ist immer eine PHP5 Klasse die um die Klasse *rcp_
 
 Um das Manialink Framework zu verstehen sollte man zuerst seinen Ablauf und die Implementierung in remoteCP kennen lernen. Denn auch wenn das Framework für remoteCP geschrieben wurde, ist es doch so angelegt das es auch für andere zwecke einsetzbar ist! Der grobe Ablauf sieht wie folgt aus:
 
-# Aufruf der Methode *manialink::display* mit den Parametern des Server callbacks *TrackMania.PlayerManialinkPageAnswer* (Hauptprogramm Ablaufschritt: 2.a.7.c.3)
-
-  * Ermitteln des Spielers der die ManialinkPageAnswer ausgelöst hat
-  * Passendes Callback zur übermittelten Action ID ermitteln
-  * Ermitteltes Callback ausführen
-  * Callback Aufruf: *onPlayerManialinkPageAnswer*
-  * Ermitteln des Manialink XML’s für den ermittelten Spieler
-  * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
-
-# Aufruf der Methode *manialink::display* ohne Parameter (Hauptprogramm Ablaufschritt: 2.a.7.e.)
-
-  * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf *onMLContainer`<name>`*
-  * Ermitteln des Manialink XML Code für jeden einzelnen derzeitig im System bekannten Spieler
-  * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
-  * Status reset der „Container“
+  # Aufruf der Methode *manialink::display* mit den Parametern des Server callbacks *TrackMania.PlayerManialinkPageAnswer*
+    * Ermitteln des Spielers der die ManialinkPageAnswer ausgelöst hat
+    * Passendes Callback zur übermittelten Action ID ermitteln
+    * Ermitteltes Callback ausführen
+    * Callback Aufruf: *onPlayerManialinkPageAnswer*
+    * Ermitteln des Manialink XML’s für den ermittelten Spieler
+    * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
+  # Aufruf der Methode *manialink::display* ohne Parameter
+    * Prüfung und Update geänderter Manialink „Container”, Callback Aufruf *onMLContainer`<name>`*
+    * Ermitteln des Manialink XML Code für jeden einzelnen derzeitig im System bekannten Spieler
+    * Senden des individuellen Manialink Codes mit SendDisplayManialinkPageToLogin an den Dedicated Server
+    * Status reset der „Container“
 
 Das Framework selbst wird direkt dann erzeugt wenn auch ein neuer Spieler dem System hinzugefügt wird. Somit besitzt jeder Spieler sein eigenes Framework. Beim erzeugen des Frameworks wird dann direkt das Callback *onNewPlayer* in allen Plugins ausgeführt und dadurch alle Manialink Fenster und Container dem Framework hinzugefügt. Somit MUSS ein neues Fenster in der Methode *onNewPlayer* definiert werden, sonst kann es passieren das einigen Spielern unter umständen das Fenster unbekannt ist.
 
@@ -194,8 +178,8 @@ Das Framework selbst wird direkt dann erzeugt wenn auch ein neuer Spieler dem Sy
 
 Generell werden alle Callback Aufrufe über die Methode triggerEvent des Plugin Systems getätigt. triggerEvent kann auf zwei Arten aufgerufen werden:
 
-# nur mit dem Methodennamen, dann werden alle Plugins die diese Methode enthalten in der Reihenfolge wie sie in der Datei /xml/settings/settingset/live.xml gelistet sind ausgeführt
-# mit einem Array in der Form array((string) Methodenname, (mixed) PluginId), in diesem Fall wird explizit nur die Methode eines Plugins aufgerufen.
+  # nur mit dem Methodennamen, dann werden alle Plugins die diese Methode enthalten in der Reihenfolge wie sie in der Datei /xml/settings/settingset/live.xml gelistet sind ausgeführt
+  # mit einem Array in der Form array((string) Methodenname, (mixed) PluginId), in diesem Fall wird explizit nur die Methode eines Plugins aufgerufen.
 
 Egal welche Methode Verwendung findet, triggerEvent prüft bei jedem Aufruf den Pluginwert *plugin::$nservstatus* und stoppt die Ausführung der Methode für das jeweilige Plugin wenn der aktuelle Serverstatus nicht dem benötigten Werten entspricht. Außerdem führt triggerEvent nur Methoden in aktivierten (*plugin::$enabled*) Plugins aus. Einzige Ausnahmen sind hier die Methoden *onMLEnabled* und *onNewPlayer*, ohne die ein aktivieren des Plugins ebenfalls nicht mehr möglich wäre.
 
